@@ -1,0 +1,21 @@
+html,body,.player,.location,.enemy{
+    display:flex;
+    margin:auto;
+    width:100%;
+    flex-wrap: nowrap;
+}
+
+.player{
+    width:33,3%;
+    background-color: aqua;
+}
+
+.location{
+    width:33,3%;
+    background-color: chartreuse;
+}
+
+.enemy{
+    width:33,3%;
+    background-color: crimson;
+}
