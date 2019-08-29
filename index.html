@@ -8,7 +8,38 @@
   <script src="main.js" defer></script>
 </head>
 <body>
-    <div class="player">player window</div>
-    <div class="location">location window</div>
-    <div class="enemy">enemy window</div>
+    <div class="playerbox">
+      <div class="player">
+        <div class="hpcontainer">
+          <span class="hp"></span>
+          <div class="divHpSvg"><svg class="hpsvg"><rect class="recthp" x="0%" y="0%" width="100%" height="100%"  fill="red"/></svg></div>
+        </div>
+        <div class="manacontainer">
+          <span class="mana"></span>
+          <div class="divManaSvg"><svg class="manasvg"><rect class="rectmana" x="0%" y="0%" width="100%" height="100%"  fill="blue"/></svg></div>
+        </div>
+        <div class="HeroNameStory"></div>
+        <img class="imgplayer">
+        <div class="GoldCoordExpLvl"></div>
+        <span class="HeroStatsMain"></span>
+        <span class="HeroStatsSecond"></span>
+        <span class="HeroStatsThird"></span>
+        <span class="HeroStatsFourth"></span>
+        <div class="action">
+          <button class="walking" onclick="Hero.goStraight()">Go Straight</button>
+          <button class="fight">Hit Enemy</button>
+          <button class="speak">Speak with NPC</button>
+        </div>
+        <div class="equip">
+          <button class="equip1">melee weapon</button>
+          <button class="equip2">range weapon</button>
+          <button class="equip3">magic weapon</button>
+        </div>
+      </div>
+    </div>
+    <div class="locationbox">
+      <img class="imgloc">
+      <div class="storyloc"></div>
+    </div>
+    <div class="enemybox">enemy window</div>
 </body>

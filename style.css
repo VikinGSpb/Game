@@ -1,21 +1,178 @@
-html,body,.player,.location,.enemy{
+html,body,.playerbox,.locationbox,.enemybox{
     display:flex;
     margin:auto;
     width:100%;
     flex-wrap: nowrap;
 }
 
-.player{
+.playerbox{
     width:33,3%;
     background-color: aqua;
 }
 
-.location{
+.locationbox{
     width:33,3%;
     background-color: chartreuse;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6.6% 5%;
+    border: 1px solid black;
 }
 
-.enemy{
+.enemybox{
     width:33,3%;
     background-color: crimson;
+}
+
+.player{
+    display: flex;
+    padding-top: 5%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.hpcontainer{
+    width: 49%;
+    flex-wrap: wrap;
+    display: flex;
+    margin-bottom: 0.2%;
+}
+
+.manacontainer{
+    flex-wrap: wrap;
+    width: 49%;
+    display: flex;
+    margin-left: 2%;
+    margin-bottom: 0.2%;
+}
+
+.divHpSvg{
+    width: 99%;
+    display: flex;
+}
+
+.divManaSvg{
+    width: 99%;
+    display: flex;
+}
+
+.hpsvg{
+    max-height: 10px;
+    border: 1px solid black;
+}
+
+.manasvg{
+    max-height: 10px;
+    border: 1px solid black;
+}
+
+.HeroNameStory{
+    width: 24.5%;
+    text-align: center;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.imgplayer{
+    width: 50%;
+    max-height: 700px;
+    border: 1px solid black;
+}
+
+.GoldCoordExpLvl{
+    width: 24.5%;
+    text-align: center;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.HeroStatsMain{
+    width: 20%;
+    padding-left: 1%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.HeroStatsSecond{
+    width: 15%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.HeroStatsThird{
+    width: 15%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.HeroStatsFourth{
+    width: 15%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.action{
+    display: flex;
+    max-width: 14%;
+    padding: 1%;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.walking{
+    width: 85%;
+    height: 25%;
+}
+
+.fight{
+    width: 85%;
+    height: 25%;
+}
+
+.speak{
+    width: 85%;
+    height: 25%;
+}
+
+.equip{
+    display: flex;
+    max-width: 14%;
+    padding: 1%;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.equip1{
+    width: 85%;
+    height: 25%;
+}
+
+.equip2{
+    width: 85%;
+    height: 25%;
+}
+
+.equip3{
+    width: 85%;
+    height: 25%;
+}
+
+.storyloc{
+    width: 99%;
+    text-align: center;
+    font-size: 150%;
+    padding-top: 5%;
+}
+
+.imgloc{
+    width: 80%;
+    min-height: 500px;
 }
