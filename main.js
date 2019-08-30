@@ -73,9 +73,9 @@ class Player extends AbsObject{
         heroFourthStats.innerHTML += "<pre>\n</pre>" + "Crit magic power: " + this._stats.returnCritMPow();
         heroFourthStats.innerHTML += "<pre>\n</pre>" + "Resist: " + this._stats.returnResistM();
         heroFourthStats.innerHTML += "<pre>\n</pre>" + "Magic Crit Chance: " + this._stats.returnMcritChance();
-        let heroHp = document.getElementsByClassName('hp')[0];
+        let heroHp = document.getElementsByClassName('herohp')[0];
         heroHp.innerHTML = "HP: " + this._stats.returnCurrentHp();
-        let heroMana = document.getElementsByClassName('mana')[0];
+        let heroMana = document.getElementsByClassName('heromana')[0];
         heroMana.innerHTML = "Mana: " + this._stats.returnCurrentMana();
     }
 
@@ -108,13 +108,24 @@ class Npc extends AbsObject{
 }
 
 class Enemy extends AbsObject{
-    constructor(name,type,coordinates,story,img,stats,gold,expirience,level,skills){
+    constructor(name,type,coordinates,story,img,stats,gold,expirience,level,skills,log){
         super(name,type,coordinates,story,img);
         this._stats = stats;
         this._gold = gold;
         this._expirience = expirience;
         this._level = level;
         this._skills = skills;
+        this._log = log;
+    }
+    draw(){
+        let enemyHp = document.getElementsByClassName('enemyhp')[0];
+        enemyHp.innerHTML = "HP: " + this._stats.returnCurrentHp();
+        let enemyMana = document.getElementsByClassName('enemymana')[0];
+        enemyMana.innerHTML = "Mana: " + this._stats.returnCurrentMana();
+        let enemy = document.getElementsByClassName('imgenemy')[0];
+        enemy.setAttribute("src",this._img);
+        let enemyname = document.getElementsByClassName('EnemyNameStoryLvl')[0];
+        enemyname.innerHTML = this._name + "<pre>\n\n\n</pre>" + this._story + "<pre>\n\n\n</pre>" + "Level: " + this._level;
     }
 }
 
@@ -467,7 +478,11 @@ let locations = [new Location("StartLock","Location",loc1C,"You run to the fores
     ,new Location("ThirdLock","Location",loc3C,"You find some man","thirdlock.jpg")];
 let HeroCoordinates = new Coordinates(50,50);
 let HeroStats = new Stats(5,5,5,5,5,5);
+let Enemy1Coordinates = new Coordinates(50,50);
+let Enemy1Stats= new Stats(5,5,5,5,5,5);
 let Hero = new Player("Desertik","Hero",HeroCoordinates,"some story of hero","hero.jpg",HeroStats,0,0,1,null);
 //Hero._stats.addfreeStats(5);
+let Enemy1 = new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"");
 Hero.draw();
 Hero.currentLocation().draw();
+Enemy1.draw();

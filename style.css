@@ -15,7 +15,7 @@ html,body,.playerbox,.locationbox,.enemybox{
     background-color: chartreuse;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 6.6% 5%;
+    padding: 5.8% 5%;
     border: 1px solid black;
 }
 
@@ -31,14 +31,14 @@ html,body,.playerbox,.locationbox,.enemybox{
     flex-wrap: wrap;
 }
 
-.hpcontainer{
+.herohpcontainer{
     width: 49%;
     flex-wrap: wrap;
     display: flex;
     margin-bottom: 0.2%;
 }
 
-.manacontainer{
+.heromanacontainer{
     flex-wrap: wrap;
     width: 49%;
     display: flex;
@@ -46,22 +46,22 @@ html,body,.playerbox,.locationbox,.enemybox{
     margin-bottom: 0.2%;
 }
 
-.divHpSvg{
+.herodivHpSvg{
     width: 99%;
     display: flex;
 }
 
-.divManaSvg{
+.herodivManaSvg{
     width: 99%;
     display: flex;
 }
 
-.hpsvg{
+.herohpsvg{
     max-height: 10px;
     border: 1px solid black;
 }
 
-.manasvg{
+.heromanasvg{
     max-height: 10px;
     border: 1px solid black;
 }
@@ -175,4 +175,68 @@ html,body,.playerbox,.locationbox,.enemybox{
 .imgloc{
     width: 80%;
     min-height: 500px;
+}
+
+.enemy{
+    display: flex;
+    padding-top: 5%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 25.5%;
+}
+
+.enemyhpcontainer{
+    width: 49%;
+    flex-wrap: wrap;
+    display: flex;
+    margin-bottom: 0.2%;
+}
+
+.enemymanacontainer{
+    flex-wrap: wrap;
+    width: 49%;
+    display: flex;
+    margin-left: 2%;
+    margin-bottom: 0.2%;
+}
+
+.enemydivHpSvg{
+    width: 99%;
+    display: flex;
+}
+
+.enemydivManaSvg{
+    width: 99%;
+    display: flex;
+}
+
+.enemyhpsvg{
+    max-height: 10px;
+    border: 1px solid black;
+}
+
+.enemymanasvg{
+    max-height: 10px;
+    border: 1px solid black;
+}
+
+.EnemyNameStoryLvl{
+    width: 28.5%;
+    text-align: center;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.imgenemy{
+    width: 50%;
+    max-height: 700px;
+    min-width: 70%;
+    border: 1px solid black;
+}
+
+.log{
+    display: flex;
+    width: 30%;
+    background-color: darkgray;
 }
