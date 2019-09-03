@@ -95,8 +95,16 @@ class Player extends AbsObject{
         this.draw();
     }
 
-    fight(Enemy){
-        
+    fight(){
+        let enemy;
+        for(let i = 0; i < Enemys.length; i++)
+            if(this._coordinates.returnX() == Enemys[i].currentLocation().returnCoord().returnX() && this._coordinates.returnY() == Enemys[i].currentLocation().returnCoord().returnY())
+            {
+                enemy = Enemys[i];
+                break;
+            }
+        enemy.returnStats().minusHP(this._stats.returnMaxPMdmg() - enemy.returnStats().returnDefence());
+        enemy.draw();
     }
 }
 
@@ -117,6 +125,7 @@ class Enemy extends AbsObject{
         this._skills = skills;
         this._log = log;
     }
+
     draw(){
         let enemyHp = document.getElementsByClassName('enemyhp')[0];
         enemyHp.innerHTML = "HP: " + this._stats.returnCurrentHp();
@@ -127,6 +136,17 @@ class Enemy extends AbsObject{
         let enemyname = document.getElementsByClassName('EnemyNameStoryLvl')[0];
         enemyname.innerHTML = this._name + "<pre>\n\n\n</pre>" + this._story + "<pre>\n\n\n</pre>" + "Level: " + this._level;
     }
+
+    currentLocation(){
+        for(let i = 0; i < locations.length; i++)
+            if((this._coordinates.returnX() == locations[i].returnCoord().returnX()) && (this._coordinates.returnY() == locations[i].returnCoord().returnY()))
+                return locations[i];
+    }
+
+    returnStats(){
+        return this._stats;
+    }
+
 }
 
 class Chest extends AbsObject{
@@ -482,7 +502,7 @@ let Enemy1Coordinates = new Coordinates(50,50);
 let Enemy1Stats= new Stats(5,5,5,5,5,5);
 let Hero = new Player("Desertik","Hero",HeroCoordinates,"some story of hero","hero.jpg",HeroStats,0,0,1,null);
 //Hero._stats.addfreeStats(5);
-let Enemy1 = new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"");
+let Enemys = [new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"")];
 Hero.draw();
 Hero.currentLocation().draw();
-Enemy1.draw();
+Enemys[0].draw();
