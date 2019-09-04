@@ -135,6 +135,10 @@ class Enemy extends AbsObject{
         enemy.setAttribute("src",this._img);
         let enemyname = document.getElementsByClassName('EnemyNameStoryLvl')[0];
         enemyname.innerHTML = this._name + "<pre>\n\n\n</pre>" + this._story + "<pre>\n\n\n</pre>" + "Level: " + this._level;
+        let enemyRectHp = document.getElementsByClassName('enemyrecthp')[0];
+        let enemyRectMana = document.getElementsByClassName('enemyrectmana')[0];
+        enemyRectHp.setAttribute("width",this.returnStats().returnCurrentHp() / this.returnStats().returnHP() * 100 + "%");
+        enemyRectMana.setAttribute("width",this.returnStats().returnCurrentMana() / this.returnStats().returnMana() * 100 + "%");
     }
 
     currentLocation(){
