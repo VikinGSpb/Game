@@ -30,7 +30,7 @@ class Player extends AbsObject{
         heroname.innerHTML = this._name + "<pre>\n\n\n</pre>" + this._story;
         let gcel = document.getElementsByClassName('GoldCoordExpLvl')[0];
         gcel.innerHTML = this._coordinates + "<pre>\n\n\n</pre>" + "Gold: " + this._gold + "<pre>\n\n\n</pre>" + "Level: " + 
-        this._level + "<pre>\n\n\n</pre>" + "Exp: " + this._expirience;
+        this._level.returnLvl() + "<pre>\n\n\n</pre>" + "Exp: " + this._expirience;
         let heroStats = document.getElementsByClassName('HeroStatsMain')[0];
         if(this._stats.returnfreeStats() > 0)
         {
@@ -77,16 +77,24 @@ class Player extends AbsObject{
         heroHp.innerHTML = "HP: " + this._stats.returnCurrentHp();
         let heroMana = document.getElementsByClassName('heromana')[0];
         heroMana.innerHTML = "Mana: " + this._stats.returnCurrentMana();
+        let heroRectHp = document.getElementsByClassName('herorecthp')[0];
+        let heroRectMana = document.getElementsByClassName('herorectmana')[0];
+        heroRectHp.setAttribute("width",this.returnStats().returnCurrentHp() / this.returnStats().returnHP() * 100 + "%");
+        heroRectMana.setAttribute("width",this.returnStats().returnCurrentMana() / this.returnStats().returnMana() * 100 + "%");
     }
 
     isAlive(){
-        return this._stats._currentHp > 0;
+        return this.returnStats().returnCurrentHp() > 0;
     }
 
     currentLocation(){
         for(let i = 0; i < locations.length; i++)
             if((this._coordinates.returnX() == locations[i].returnCoord().returnX()) && (this._coordinates.returnY() == locations[i].returnCoord().returnY()))
                 return locations[i];
+    }
+
+    returnStats(){
+        return this._stats;
     }
 
     goStraight(){
@@ -103,9 +111,37 @@ class Player extends AbsObject{
                 enemy = Enemys[i];
                 break;
             }
-        enemy.returnStats().minusHP(this._stats.returnMaxPMdmg() - enemy.returnStats().returnDefence());
-        enemy.draw();
+        let herohit = this._stats.returnMaxPMdmg() - enemy.returnStats().returnDefence();
+        let enemyhit = enemy.returnStats().returnMaxPMdmg() - this.returnStats().returnDefence();
+        let logspan = document.getElementsByClassName('logspan')[0];
+        enemy.returnStats().minusHP(herohit);
+        if(!enemy.isAlive())
+        {
+            enemy.returnStats().minusHP(enemy.returnStats().returnCurrentHp());
+            enemy.draw();
+            let stopfight = document.getElementsByClassName('fight')[0];
+            stopfight.setAttribute('onclick','hero.cantfight()');
+            logspan.innerHTML += "<pre>\n</pre>Hero deals " + `${herohit}` + " damage!";
+            logspan.innerHTML += "<pre>\n</pre>Enemy was defeated! You receive " + `${enemy.returnGold()}` + " gold and " + `${enemy.returnExp()}` 
+            + " experince. " +" Now you can go to the next location!";
+            this._gold += enemy.returnGold();
+            this._expirience += enemy.returnExp();
+            if(this._expirience >= this._level.returnExpForNextLvl()) 
+            {
+                this._level.lvlup();
+                this._stats.addfreeStats(5);
+            }
+        } else {
+            enemy.draw();
+            logspan.innerHTML += "<pre>\n</pre>Hero deals " + `${herohit}` + " damage!";
+            this.returnStats().minusHP(enemyhit);
+            logspan.innerHTML += "<pre>\n</pre>Enemy deals " + `${enemyhit}` + " damage!";
+        }
+        
+        this.draw();
     }
+
+    cantfight(){}
 }
 
 class Npc extends AbsObject{
@@ -149,6 +185,18 @@ class Enemy extends AbsObject{
 
     returnStats(){
         return this._stats;
+    }
+
+    isAlive(){
+        return this.returnStats().returnCurrentHp() > 0;
+    }
+
+    returnGold(){
+        return this._gold;
+    }
+
+    returnExp(){
+        return this._expirience;
     }
 
 }
@@ -447,7 +495,7 @@ class Level{
 
     lvlup(){
         this._level += 1;
-        this._startExp = expForNextLvl;
+        this._startExp = this._expForNextLvl;
         this._expForNextLvl *= 2;
     }
 
@@ -504,7 +552,8 @@ let HeroCoordinates = new Coordinates(50,50);
 let HeroStats = new Stats(5,5,5,5,5,5);
 let Enemy1Coordinates = new Coordinates(50,50);
 let Enemy1Stats= new Stats(5,5,5,5,5,5);
-let Hero = new Player("Desertik","Hero",HeroCoordinates,"some story of hero","hero.jpg",HeroStats,0,0,1,null);
+let level = new Level(1,0,50);
+let Hero = new Player("Desertik","Hero",HeroCoordinates,"some story of hero","hero.jpg",HeroStats,0,0,level,null);
 //Hero._stats.addfreeStats(5);
 let Enemys = [new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"")];
 Hero.draw();
