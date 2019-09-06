@@ -21,9 +21,30 @@ class Player extends AbsObject{
     }
 
     draw(){
-        let button = document.createElement("button");
-        button.className = "plusbutton";
-        button.innerHTML = "+";
+        let strbutton = document.createElement("button");
+        strbutton.className = "plusbuttonstr";
+        strbutton.innerHTML = "+";
+        strbutton.setAttribute("onclick","Hero.addStatsStr()");
+        let agibutton = document.createElement("button");
+        agibutton.className = "plusbuttonagi";
+        agibutton.innerHTML = "+";
+        agibutton.setAttribute("onclick","Hero.addStatsAgi()");
+        let dexbutton = document.createElement("button");
+        dexbutton.className = "plusbuttondex";
+        dexbutton.innerHTML = "+";
+        dexbutton.setAttribute("onclick","Hero.addStatsDex()");
+        let vitbutton = document.createElement("button");
+        vitbutton.className = "plusbuttonvit";
+        vitbutton.innerHTML = "+";
+        vitbutton.setAttribute("onclick","Hero.addStatsVit()");
+        let enebutton = document.createElement("button");
+        enebutton.className = "plusbuttonene";
+        enebutton.innerHTML = "+";
+        enebutton.setAttribute("onclick","Hero.addStatsEne()");
+        let wisbutton = document.createElement("button");
+        wisbutton.className = "plusbuttonwis";
+        wisbutton.innerHTML = "+";
+        wisbutton.setAttribute("onclick","Hero.addStatsWis()");
         let hero = document.getElementsByClassName('imgplayer')[0];
         hero.setAttribute("src","hero.jpg");
         let heroname = document.getElementsByClassName('HeroNameStory')[0];
@@ -36,17 +57,17 @@ class Player extends AbsObject{
         {
             heroStats.innerHTML = "Free stats: " + this._stats.returnfreeStats();
             heroStats.innerHTML += "<pre>\n</pre>" + "Strength: " + this._stats.returnStr();
-            heroStats.append(button);
+            heroStats.append(strbutton);
             heroStats.innerHTML += "<pre>\n</pre>" + "Agility: " + this._stats.returnAgi() ;
-            heroStats.append(button);
+            heroStats.append(agibutton);
             heroStats.innerHTML += "<pre>\n</pre>" + "Dextrity: " + this._stats.returnDex();
-            heroStats.append(button); 
+            heroStats.append(dexbutton); 
             heroStats.innerHTML += "<pre>\n</pre>" + "Vitality: " + this._stats.returnVit();
-            heroStats.append(button); 
+            heroStats.append(vitbutton); 
             heroStats.innerHTML += "<pre>\n</pre>" + "Energy: " + this._stats.returnEne();
-            heroStats.append(button); 
+            heroStats.append(enebutton); 
             heroStats.innerHTML += "<pre>\n</pre>" + "Wisdom: " + this._stats.returnWis();
-            heroStats.append(button);
+            heroStats.append(wisbutton);
         } else {
             heroStats.innerHTML = "Free stats: " + this._stats.returnfreeStats();
             heroStats.innerHTML += "<pre>\n</pre>" + "Strength: " + this._stats.returnStr();
@@ -142,6 +163,36 @@ class Player extends AbsObject{
     }
 
     cantfight(){}
+
+    addStatsStr(){
+        this._stats.addstr(1);
+        this.draw();
+    }
+
+    addStatsAgi(){
+        this._stats.addagi(1);
+        this.draw();
+    }
+
+    addStatsDex(){
+        this._stats.adddex(1);
+        this.draw();
+    }
+
+    addStatsVit(){
+        this._stats.addvit(1);
+        this.draw();
+    }
+
+    addStatsEne(){
+        this._stats.addene(1);
+        this.draw();
+    }
+
+    addStatsWis(){
+        this._stats.addwis(1);
+        this.draw();
+    }
 }
 
 class Npc extends AbsObject{
@@ -275,7 +326,7 @@ class Stats{
     }
 
     addstr(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._str += x;
             this._minPMdmg = Math.round(10 + this._str / 3);
@@ -286,7 +337,7 @@ class Stats{
     }
 
     addagi(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._agi += x;
             this._minPRdmg = Math.round(10 + this._agi / 3);
@@ -298,7 +349,7 @@ class Stats{
     }
 
     adddex(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._dex += x;
             this._critChance = this._dex;
@@ -308,7 +359,7 @@ class Stats{
     }
     
     addvit(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._vit += x;
             this._maxHp = 50 + this._vit * 3;
@@ -317,7 +368,7 @@ class Stats{
     }
 
     addene(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._ene += x;
             this._minMdmg = Math.round(10 + this._ene / 3);
@@ -330,7 +381,7 @@ class Stats{
     }
 
     addwis(x){
-        if(this._freeStats < x) break;
+        if(this._freeStats < x) return;
         else{
             this._wis += x;
             this._maxMana = 25 + this._ene * 2 + this._wis * 2;
