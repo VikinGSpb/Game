@@ -21,30 +21,6 @@ class Player extends AbsObject{
     }
 
     draw(){
-        let strbutton = document.createElement("button");
-        strbutton.className = "plusbuttonstr";
-        strbutton.innerHTML = "+";
-        strbutton.setAttribute("onclick","Hero.addStatsStr()");
-        let agibutton = document.createElement("button");
-        agibutton.className = "plusbuttonagi";
-        agibutton.innerHTML = "+";
-        agibutton.setAttribute("onclick","Hero.addStatsAgi()");
-        let dexbutton = document.createElement("button");
-        dexbutton.className = "plusbuttondex";
-        dexbutton.innerHTML = "+";
-        dexbutton.setAttribute("onclick","Hero.addStatsDex()");
-        let vitbutton = document.createElement("button");
-        vitbutton.className = "plusbuttonvit";
-        vitbutton.innerHTML = "+";
-        vitbutton.setAttribute("onclick","Hero.addStatsVit()");
-        let enebutton = document.createElement("button");
-        enebutton.className = "plusbuttonene";
-        enebutton.innerHTML = "+";
-        enebutton.setAttribute("onclick","Hero.addStatsEne()");
-        let wisbutton = document.createElement("button");
-        wisbutton.className = "plusbuttonwis";
-        wisbutton.innerHTML = "+";
-        wisbutton.setAttribute("onclick","Hero.addStatsWis()");
         let hero = document.getElementsByClassName('imgplayer')[0];
         hero.setAttribute("src","hero.jpg");
         let heroname = document.getElementsByClassName('HeroNameStory')[0];
@@ -55,6 +31,30 @@ class Player extends AbsObject{
         let heroStats = document.getElementsByClassName('HeroStatsMain')[0];
         if(this._stats.returnfreeStats() > 0)
         {
+            let strbutton = document.createElement("button");
+            strbutton.className = "plusbuttonstr";
+            strbutton.innerHTML = "+";
+            strbutton.setAttribute("onclick","Hero.addStatsStr()");
+            let agibutton = document.createElement("button");
+            agibutton.className = "plusbuttonagi";
+            agibutton.innerHTML = "+";
+            agibutton.setAttribute("onclick","Hero.addStatsAgi()");
+            let dexbutton = document.createElement("button");
+            dexbutton.className = "plusbuttondex";
+            dexbutton.innerHTML = "+";
+            dexbutton.setAttribute("onclick","Hero.addStatsDex()");
+            let vitbutton = document.createElement("button");
+            vitbutton.className = "plusbuttonvit";
+            vitbutton.innerHTML = "+";
+            vitbutton.setAttribute("onclick","Hero.addStatsVit()");
+            let enebutton = document.createElement("button");
+            enebutton.className = "plusbuttonene";
+            enebutton.innerHTML = "+";
+            enebutton.setAttribute("onclick","Hero.addStatsEne()");
+            let wisbutton = document.createElement("button");
+            wisbutton.className = "plusbuttonwis";
+            wisbutton.innerHTML = "+";
+            wisbutton.setAttribute("onclick","Hero.addStatsWis()");
             heroStats.innerHTML = "Free stats: " + this._stats.returnfreeStats();
             heroStats.innerHTML += "<pre>\n</pre>" + "Strength: " + this._stats.returnStr();
             heroStats.append(strbutton);
@@ -122,9 +122,32 @@ class Player extends AbsObject{
         this._coordinates.setY(this._coordinates.returnY() - 1);
         this.currentLocation().draw();
         this.draw();
+        let logspan = document.getElementsByClassName('logspan')[0];
+        logspan.innerHTML = 'Log: ';
+        let button = document.getElementsByClassName('fight')[0];
+        switch(this.currentLocation().contains()) {
+            case 'E':
+                for(let i = 0; i < Enemys.length; i++)
+                {
+                    if (this.currentLocation() == Enemys[i].currentLocation())
+                    {
+                        Enemys[i].draw();
+                        button.setAttribute('onclick','Hero.fight()');
+                        break;
+                    }
+                }
+                break;
+            case 'N':
+                button.setAttribute('onclick','Hero.cantfight()');
+            case 'C':
+                button.setAttribute('onclick','Hero.cantfight()');
+        }
+        alert(this.currentLocation().contains());
     }
 
     fight(){
+        let button = document.getElementsByClassName('walking')[0];
+        button.setAttribute("onclick","Hero.cantmove()");
         let enemy;
         for(let i = 0; i < Enemys.length; i++)
             if(this._coordinates.returnX() == Enemys[i].currentLocation().returnCoord().returnX() && this._coordinates.returnY() == Enemys[i].currentLocation().returnCoord().returnY())
@@ -138,10 +161,10 @@ class Player extends AbsObject{
         enemy.returnStats().minusHP(herohit);
         if(!enemy.isAlive())
         {
-            enemy.returnStats().minusHP(enemy.returnStats().returnCurrentHp());
+            //enemy.returnStats().minusHP(enemy.returnStats().returnCurrentHp());
             enemy.draw();
             let stopfight = document.getElementsByClassName('fight')[0];
-            stopfight.setAttribute('onclick','hero.cantfight()');
+            stopfight.setAttribute('onclick','Hero.cantfight()');
             logspan.innerHTML += "<pre>\n</pre>Hero deals " + `${herohit}` + " damage!";
             logspan.innerHTML += "<pre>\n</pre>Enemy was defeated! You receive " + `${enemy.returnGold()}` + " gold and " + `${enemy.returnExp()}` 
             + " experince. " +" Now you can go to the next location!";
@@ -151,7 +174,11 @@ class Player extends AbsObject{
             {
                 this._level.lvlup();
                 this._stats.addfreeStats(5);
+                this._stats.plusHP(10000);
+                this._stats.plusMana(10000);
             }
+            button.setAttribute("onclick","Hero.goStraight()");
+            //Enemys.shift();
         } else {
             enemy.draw();
             logspan.innerHTML += "<pre>\n</pre>Hero deals " + `${herohit}` + " damage!";
@@ -163,6 +190,9 @@ class Player extends AbsObject{
     }
 
     cantfight(){}
+    cantmove(){}
+    cantuseskill(){}
+    cantchange(){}
 
     addStatsStr(){
         this._stats.addstr(1);
@@ -250,6 +280,10 @@ class Enemy extends AbsObject{
         return this._expirience;
     }
 
+    returnCoord(){
+        return this._coordinates;
+    }
+
 }
 
 class Chest extends AbsObject{
@@ -289,6 +323,18 @@ class Location extends AbsObject{
         locimg.setAttribute("src",this._img);
         let locstory = document.getElementsByClassName('storyloc')[0];
         locstory.innerHTML = this._story;
+    }
+
+    contains(){
+        for(let i = 0; i < Enemys.length; i++)
+            if((this._coordinates.returnX() == Enemys[i].returnCoord().returnX()) && (this._coordinates.returnY() == Enemys[i].returnCoord().returnY()))
+                return "E";
+        for(let i = 0; i < NPCs.length; i++)
+            if((this._coordinates.returnX() == NPCs[i].returnCoord().returnX()) && (this._coordinates.returnY() == NPCs[i].returnCoord().returnY()))
+                return "N";
+        for(let i = 0; i < Chests.length; i++)
+            if((this._coordinates.returnX() == Enemys[i].returnCoord().returnX()) && (this._coordinates.returnY() == Enemys[i].returnCoord().returnY()))
+                return "C";
     }
 }
 
@@ -525,7 +571,7 @@ class Stats{
     }
 
     minusHP(x){
-        this._currentHp -= x;
+        (this._currentHp - x) > 0 ? this._currentHp -= x : this._currentHp = 0;
     }
 
     minusMana(x){
@@ -603,10 +649,15 @@ let HeroCoordinates = new Coordinates(50,50);
 let HeroStats = new Stats(5,5,5,5,5,5);
 let Enemy1Coordinates = new Coordinates(50,50);
 let Enemy1Stats= new Stats(5,5,5,5,5,5);
+let Enemy2Coordinates = new Coordinates(50,49);
+let Enemy2Stats= new Stats(6,5,5,6,5,5);
 let level = new Level(1,0,50);
 let Hero = new Player("Desertik","Hero",HeroCoordinates,"some story of hero","hero.jpg",HeroStats,0,0,level,null);
 //Hero._stats.addfreeStats(5);
-let Enemys = [new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"")];
+let Enemys = [new Enemy("Soldier","Enemy",Enemy1Coordinates,"some story of enemy","enemy1.jpg",Enemy1Stats,50,50,1,null,"")
+    ,new Enemy("DualMaster","Enemy",Enemy2Coordinates,"some story of enemy","enemy2.jpg",Enemy2Stats,100,50,1,null,"")];
+let NPCs = [];
+let Chests = [];
 Hero.draw();
 Hero.currentLocation().draw();
 Enemys[0].draw();
